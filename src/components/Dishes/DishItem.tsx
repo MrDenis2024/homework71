@@ -1,12 +1,15 @@
 import React from 'react';
 import {Dish} from '../../types';
 import {Link} from 'react-router-dom';
+import ButtonSpinner from '../Spinner/ButtonSpinner';
 
 interface Props {
   dish: Dish;
+  onDelete: VoidFunction;
+  deleteLoading: boolean;
 }
 
-const DishItem: React.FC<Props> = ({dish}) => {
+const DishItem: React.FC<Props> = ({dish, onDelete, deleteLoading}) => {
   return (
     <div className="card mb-2" >
       <div className="card-body d-flex align-items-center justify-content-between">
@@ -16,8 +19,8 @@ const DishItem: React.FC<Props> = ({dish}) => {
         </div>
         <span><strong>{dish.price} KGS</strong></span>
         <div className='col-2 d-flex align-items-center justify-content-around'>
-          <Link className="btn btn-primary" to={`/admin/edit-dish/${dish.id}`}>Edit</Link>
-          <button type="button" className="btn btn-danger">Delete</button>
+          <Link className={'btn btn-primary' + (deleteLoading ? ' disabled' : '')} to={`/admin/edit-dish/${dish.id}`}>{deleteLoading && <ButtonSpinner />}Edit</Link>
+          <button type="button" className="btn btn-danger" onClick={onDelete}>{deleteLoading && <ButtonSpinner />}Delete</button>
         </div>
       </div>
     </div>

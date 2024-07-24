@@ -21,3 +21,7 @@ export const fetchDishes = createAsyncThunk<Dish[], void, {state: RootState}>('d
     };
   });
 });
+
+export const deleteDish = createAsyncThunk<void, string, {state: RootState}>('dishes/deleteDish', async (dishId) => {
+  await axiosApi.delete(`/turtlePizza/${dishId}.json`);
+});
