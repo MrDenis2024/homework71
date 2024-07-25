@@ -1,19 +1,25 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {createDish, deleteDish, fetchDishes} from './dishesThunks';
-import {Dish} from '../types';
+import {createDish, deleteDish, fetchDishes, fetchOneDish, updateDish} from './dishesThunks';
+import {ApiDish, Dish} from '../types';
 
 interface DishesState {
   createLoading: boolean;
   fetchLoading: boolean;
   deleteLoading: boolean;
+  fetchOneLoading: boolean;
+  updateLoading: boolean;
   dishes: Dish[];
+  dish: null | ApiDish;
 }
 
 const initialState: DishesState = {
   createLoading: false,
   fetchLoading: false,
   deleteLoading: false,
+  fetchOneLoading: false,
+  updateLoading: false,
   dishes: [],
+  dish: null,
 };
 
 const dishesSlice = createSlice({
@@ -45,12 +51,33 @@ const dishesSlice = createSlice({
     }).addCase(deleteDish.rejected, (state) => {
       state.deleteLoading = false;
     });
+
+    builder.addCase(fetchOneDish.pending, (state) => {
+      state.dish = null;
+      state.fetchOneLoading = true;
+    }).addCase(fetchOneDish.fulfilled, (state, {payload: dish}) => {
+      state.fetchOneLoading = false;
+      state.dish = dish;
+    }).addCase(fetchOneDish.rejected, (state) => {
+      state.fetchOneLoading = false;
+    });
+
+    builder.addCase(updateDish.pending, (state) => {
+      state.updateLoading = true;
+    }).addCase(updateDish.fulfilled, (state) => {
+      state.updateLoading = false;
+    }).addCase(updateDish.rejected, (state) => {
+      state.updateLoading = false;
+    });
   },
   selectors: {
     selectCreateDishLoading: (state) => state.createLoading,
     selectFetchDishesLoading: (state) => state.fetchLoading,
     selectDishes: (state) => state.dishes,
     selectDeleteDishLoading: (state) => state.deleteLoading,
+    selectFetchOneDishLoading: (state) => state.fetchOneLoading,
+    selectUpdateDishLoading: (state) => state.updateLoading,
+    selectOneDish: (state) => state.dish,
   }
 });
 
@@ -60,4 +87,7 @@ export const {
   selectFetchDishesLoading,
   selectDishes,
   selectDeleteDishLoading,
+  selectFetchOneDishLoading,
+  selectUpdateDishLoading,
+  selectOneDish,
 } = dishesSlice.selectors;

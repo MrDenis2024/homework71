@@ -5,6 +5,7 @@ import ButtonSpinner from '../Spinner/ButtonSpinner';
 interface Props {
   onSubmit: (dish: ApiDish) => void;
   isLoading: boolean;
+  existingDish? : ApiDish;
 }
 
 const emptyState: DishMutation = {
@@ -13,8 +14,9 @@ const emptyState: DishMutation = {
   image: '',
 };
 
-const DishForm: React.FC<Props> = ({onSubmit, isLoading}) => {
-  const [dishMutation, setDishMutation] = useState<DishMutation>(emptyState);
+const DishForm: React.FC<Props> = ({onSubmit, isLoading, existingDish}) => {
+  const initialState: DishMutation = existingDish ? ({...existingDish, price: existingDish.price.toString()}) : emptyState;
+  const [dishMutation, setDishMutation] = useState<DishMutation>(initialState);
 
   const changeDish = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
