@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {createDish, deleteDish, fetchDishes, fetchOneDish, updateDish} from './dishesThunks';
 import {ApiDish, Dish} from '../types';
 
-interface DishesState {
+export interface DishesState {
   createLoading: boolean;
   fetchLoading: boolean;
   deleteLoading: boolean;

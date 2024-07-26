@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import Dishes from '../../components/Dishes/Dishes';
 
 const AdminDishes = () => {
+
   return (
     <div className='mt-5'>
       <div className='d-flex justify-content-between align-items-center'>

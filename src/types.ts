@@ -16,3 +16,12 @@ export interface DishMutation {
   price: string;
   image: string;
 }
+
+export interface CartDish {
+  dish: Dish;
+  amount: number;
+}
+
+export interface ApiOrder {
+  [id: string]: number;
+}

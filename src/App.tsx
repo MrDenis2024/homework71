@@ -5,12 +5,14 @@ import Layout from './components/Layout/Layout';
 import AdminDishes from './containers/AdminDishes/AdminDishes';
 import NewDish from './containers/NewDish/NewDish';
 import EditDish from './containers/EditDish/EditDish';
+import Home from './containers/Home/Home';
 
 const App = () => {
 
   return (
     <Layout>
       <Routes>
+        <Route path='/' element={<Home />} />
         <Route path='/admin' element={<Admin />}>
           <Route path='dishes' element={<AdminDishes />}/>
         </Route>
