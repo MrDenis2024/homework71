@@ -1,14 +1,20 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {CartDish, Dish} from '../types';
-import {createOrder} from './cartThunks';
+import {CartDish, Dish, OrderMutation,} from '../types';
+import {completeOrder, createOrder, fetchOrders,} from './cartThunks';
 
 export interface CartState {
   createOrderLoading: boolean;
+  fetchOrdersLoading: boolean;
+  deleteOrderLoading: boolean;
+  orders: OrderMutation[];
   cartDishes: CartDish[];
 }
 
 const initialState: CartState = {
   createOrderLoading: false,
+  fetchOrdersLoading: false,
+  deleteOrderLoading: false,
+  orders: [],
   cartDishes: [],
 };
 
@@ -67,10 +73,30 @@ const cartSlice = createSlice({
     }).addCase(createOrder.rejected, (state) => {
       state.createOrderLoading = false;
     });
+
+    builder.addCase(fetchOrders.pending, (state) => {
+      state.fetchOrdersLoading = true;
+    }).addCase(fetchOrders.fulfilled, (state, {payload: orders}) => {
+      state.fetchOrdersLoading = false;
+      state.orders = orders;
+    }).addCase(fetchOrders.rejected, (state) => {
+      state.fetchOrdersLoading = false;
+    });
+
+    builder.addCase(completeOrder.pending, (state) => {
+      state.deleteOrderLoading = true;
+    }).addCase(completeOrder.fulfilled, (state) => {
+      state.deleteOrderLoading = false;
+    }).addCase(completeOrder.rejected, (state) => {
+      state.deleteOrderLoading = false;
+    });
   },
   selectors: {
     selectorCartDishes: (state) => state.cartDishes,
     selectorCreateOrder: (state) => state.createOrderLoading,
+    selectorFetchOrdersLoading: (state) => state.fetchOrdersLoading,
+    selectorOrders: (state) => state.orders,
+    selectorDeleteOrderLoading: (state) => state.deleteOrderLoading,
   }
 });
 
@@ -79,4 +105,7 @@ export const {addDish, deleteCartDish, updateDishes, clearCart} = cartSlice.acti
 export const {
   selectorCartDishes,
   selectorCreateOrder,
+  selectorFetchOrdersLoading,
+  selectorOrders,
+  selectorDeleteOrderLoading,
 } = cartSlice.selectors;

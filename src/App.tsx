@@ -6,6 +6,7 @@ import AdminDishes from './containers/AdminDishes/AdminDishes';
 import NewDish from './containers/NewDish/NewDish';
 import EditDish from './containers/EditDish/EditDish';
 import Home from './containers/Home/Home';
+import Orders from './containers/Orders/Orders';
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/admin' element={<Admin />}>
           <Route path='dishes' element={<AdminDishes />}/>
+          <Route path='orders' element={<Orders />}/>
         </Route>
         <Route path='/admin/dishes/new-dish' element={<NewDish />} />
         <Route path='/admin/dishes/edit-dish/:id' element={<EditDish />} />

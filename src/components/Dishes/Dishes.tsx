@@ -19,7 +19,7 @@ const Dishes = () => {
   const removeDish = async (dishId: string) => {
     try {
       if(window.confirm('Вы точно хотите удалить данное блюдо?')) {
-        await dispatch(deleteDish(dishId));
+        await dispatch(deleteDish(dishId)).unwrap();
         await dispatch(fetchDishes());
         toast.success('Блюдо успешно удалено');
       }
@@ -28,17 +28,19 @@ const Dishes = () => {
     }
   };
 
-
   return (
     <>
-      {dishesLoading ? (
+      {dishesLoading && (
         <div className='text-center'>
           <Spinner />
         </div>
-      ) : (
+      )}
+      {dishes.length > 0 ? (
         dishes.map((dish) => (
           <DishItem key={dish.id} dish={dish} onDelete={() => removeDish(dish.id)} deleteLoading={deleteLoading} />
         ))
+      ) : (
+        <h2 className='text-center'>Блюда пока не добавлены</h2>
       )}
     </>
   );

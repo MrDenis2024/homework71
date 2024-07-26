@@ -25,3 +25,21 @@ export interface CartDish {
 export interface ApiOrder {
   [id: string]: number;
 }
+
+export interface ApiOrders {
+  [id: string]: ApiOrder;
+}
+
+export interface OrderMutation {
+  id: string;
+  quantities: ApiOrder;
+}
+
+export interface DishOrder extends Dish {
+  amount: number;
+}
+
+export interface DishOrders {
+  dishes: DishOrder[];
+  id: string;
+}
