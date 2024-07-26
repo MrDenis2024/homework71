@@ -21,7 +21,6 @@ const Cart = () => {
   const onSubmitCart = async () => {
     const order = cartDishes.reduce<ApiOrder>((acc, cartDish) => {
       acc[cartDish.dish.id] = cartDish.amount;
-      console.log(acc);
       return acc;
     }, {});
 
